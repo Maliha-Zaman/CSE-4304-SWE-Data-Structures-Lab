@@ -1,0 +1,89 @@
+
+#include<bits/stdc++.h>
+int status=0;
+
+using namespace std;
+
+class BST {
+
+    struct node
+    {
+        int val;
+        node* left;
+        node* right;
+    };
+
+    node* root;
+
+    node* bstInsert(int x, node* t)
+    {
+        if(t == NULL)
+        {
+            t = new node;
+            t->val = x;
+            t->left = t->right = NULL;
+        }
+        else if(x < t->val && (((t->val) - x) > 3))
+        {
+            t->left = bstInsert(x, t->left);
+        }
+        else if(x > t->val && ((x-(t->val)) > 3))
+        {
+            t->right = bstInsert(x, t->right);
+        }
+        else
+        {
+            status = 1;
+        }
+        return t;
+    }
+
+
+    void inorder(node* t)
+    {
+        if(t == NULL)
+        {
+            return;
+        }
+        inorder(t->left);
+        cout << t->val << " ";
+        inorder(t->right);
+    }
+
+public:
+    BST() {
+        root = NULL;
+    }
+
+    void bstInsert(int x) {
+        root = bstInsert(x, root);
+    }
+
+    void display() {
+        inorder(root);
+        cout << endl;
+    }
+
+};
+
+
+int main()
+{
+    BST airport;
+
+    while(true){
+        int x;
+        cin>>x;
+        if(x == -1){
+            break;
+        }
+        airport.bstInsert(x);
+        airport.display();
+        if(status == 1)
+        {
+            status = 0;
+            cout<< "(Reservation failed)" << endl;
+        }
+    }
+    return 0;
+}
